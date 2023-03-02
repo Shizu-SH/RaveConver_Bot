@@ -1,0 +1,9 @@
+import openai
+openai.api_key = "tu-clave-de-api-de-openai"
+
+def chat_gpt(prompt):
+    response = openai.Completion.create(
+        engine="davinci", prompt=prompt, max_tokens=1024, n=1, stop=None, temperature=0.5,
+    )
+    message = response.choices[0].text
+    return message.strip()
