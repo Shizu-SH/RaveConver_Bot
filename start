@@ -1,0 +1,20 @@
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+
+def start(update, context):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Hola! Soy un bot de chat alimentado por OpenAI. ¿En qué puedo ayudarte?")
+
+def reply(update, context):
+    message = update.message.text
+    response = chat_gpt(message)
+    context.bot.send_message(chat_id=update.effective_chat.id, text=response)
+
+updater = Updater(token="tu-token-de-telegram", use_context=True)
+dispatcher = updater.dispatcher
+
+start_handler = CommandHandler('start', start)
+reply_handler = MessageHandler(Filters.text & (~Filters.command), reply)
+
+dispatcher.add_handler(start_handler)
+dispatcher.add_handler(reply_handler)
+
+updater.start_polling()
